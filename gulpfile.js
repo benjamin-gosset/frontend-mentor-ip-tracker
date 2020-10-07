@@ -1,3 +1,4 @@
+const GulpClient = require('gulp');
 const { src, dest, watch } = require('gulp');
 const sass = require('gulp-sass');
 const browserSync = require('browser-sync').create();
@@ -15,11 +16,19 @@ function browser() {
             baseDir: "./"
         },
         files: [
-            './**/*.html',
-            './**/*.js'
+            './**/*.html'
         ]
     });
-    watch('./src/sass/**/*.scss', css)
+    watch('./src/sass/**/*.scss', css),
+    watch('./**/*.js', js)
+}
+
+function js() {
+    return src([
+        './node_modules/leaflet/dist/leaflet.js',
+        './src/js/**/*.js'
+    ])
+    .pipe(dest('./dist/js'));
 }
 
 exports.css = css;
