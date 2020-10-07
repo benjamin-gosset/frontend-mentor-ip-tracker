@@ -1,4 +1,4 @@
-const ipmap = L.map('map', { zoomControl:false }).setView([51.505, -0.09], 18);
+const ipmap = L.map('map', { zoomControl:false }).setView([51.505, -0.09], 17);
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors',
@@ -43,11 +43,20 @@ function fetchDisplay(element) {
         timezoneTxt.textContent = "UTC " + timezone;
         ispTxt.textContent = isp;
 
-        ipmap.setView(new L.LatLng(lat, lng), 10);
+        ipmap.setView(new L.LatLng(lat, lng), 17);
+        ipmap.panBy(new L.point(0, -100), {animate: false});
         let marker = L.marker([lat, lng], {icon: ipIcon}).addTo(ipmap);
     });
 }
 
-fetchDisplay('195.221.67.55');//'77.75.66.239''195.221.67.55'lat	48.1192lng	-1.67376
+fetchDisplay();
+//'77.75.66.239''195.221.67.55'lat	48.1192lng	-1.67376
 
+let form = document.getElementById('ipForm');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    let userIp = document.getElementById('ip').value;
+    fetchDisplay(userIp);
+})
 
